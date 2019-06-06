@@ -8,5 +8,9 @@
 #### Startup Companions from Source (through lisp/allegro environment). Using commands (qrg:require-module "companions" :companions), (qrg:compile-sys (qrg:make-qrg-path "planb") :planb), and (start-companion :scheme :mixed) respectively.
 #### In the browser that popped up, click start session, and then click kiosk.
 #### Once the kiosk domain is running, enter (achieve :receiver interaction-manager :content (setupKioskQAForIM)) into Companion's Command tab
+#### In the Allegro/Lisp listener run the command (compile-sys “ea/v8” :ea)
+#### Then compile all the files under ../companions/v1/kiosk/  using Ctrl+U in the listener
+#### Run the command (ea:setup)
+#### Finally run (train-test-qa-w-all) 
 
 #### Add/replace files in the QRG directory.
