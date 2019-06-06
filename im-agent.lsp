@@ -172,49 +172,46 @@
       :language cl-user::fire
       :content (cl-user::tell-user (,utterance-number ,(remove #\Newline msg)))))) ; no linefeeds permitted in JSON.
 
-;;;; simple function for instantiating a microtheory
-(defun kiosk-create-user (id)
+
+(defun kiosk-create-user (id) ;;This function was added by the Conversation Handling (C.H.) team as a way to create a microtheory based on each of the unique Slack IDs or any IDs. 
+  ;The microtheory will be used to store information and utterances uniqiue to the that ID.
  (let* ((id (intern id :data))
         (microtheory  id))
   (fire:kb-store `(data::isa ,id data::Agent-Generic) :mt microtheory)
   (fire:kb-store `(data::isa ,id data::NUPerson) :mt microtheory)))
 
-(defun add-dialogue (id text) ;;maybe expand dso that you only add dialogues that arent questions
+(defun add-dialogue (id text) ;;This function was added by the C.H. team as a way to store all the utterances that a user states and this can then be expanded to use as a log or for personalized responses.
 (fire:kb-store `(data::utteranceInDialogue ,id ,text) :mt id)
 )
 
-;; (defun finds-name (id text)
-;; 	(if (search "name is" text) (and (setq nameindex (+ 8 (search "name is" text))) (fire:kb-store `(data::fullName ,id ,(subseq text nameindex)) :mt id))
-;; 	(add-dialogue id text)))
+;;This function was added by the  Conversation Handling team as temporary hard code way to recognize users name. 
+; (defun finds-name (id text) 
+; 	(if (search "name is" text) (and (setq nameindex (+ 8 (search "name is" text))) (fire:kb-store `(data::fullName ,id ,(subseq text nameindex)) :mt id))
+; 	(add-dialogue id text)))
 
 
-;;; ToDo: interpret should add a task to the IM's plan grinder to do something with it.
 (defmethod handle-achieve-request ((agent interaction-manager) 
                                    (command (eql 'd::interpret))
                                    content language msg)
-  (declare (ignore language))  ;; maybe french someday?
+  (declare (ignore language))  
   (with-on-error-fn ((make-general-error-fn agent msg))
-    ;; This should initiate a plan to be executed:
     (spawn-agent-thread ("interpreting user utterance")
-      'interpret-utterance agent msg (second content) (third content) (fourth content))))
-    ; (values (list 'd::receivedUtterance (second content)) 'user::tell)))
+      'interpret-utterance agent msg (second content) (third content) (fourth content)))) ;C.H. included teh fourth content parameter so that we can have a way for the user id to be stored. This
+;can be expanded to later include more parameters.
 
-;;; Change this to extract the turn number from the msg:
-(defun interpret-utterance (agent msg utterance-number text user-id)
 
+(defun interpret-utterance (agent msg utterance-number text user-id); C.H. included the "user-id" parameter so that the interpret utterances must have a user id for interpretation 
   (declare (ignore msg))
-  ; (setq user-id 1234)
-  ;(incf (turn agent))  ;; Update the turn number each time the user says something.
   (unless (and (numberp utterance-number) (stringp text))
     (error "ccl command interpret has changed to include an utterance number.  Need to update session-manager."))
   (setf (turn agent) utterance-number)
-  (when user-id (kiosk-create-user user-id)) ;(finds-name user-id text)))
+  (when user-id (kiosk-create-user user-id)) ;This when statement was added by C.H. team in order to do the create user function only when an user-id is passed in.
   (fire::with-eanlu-discourse (discourse agent)
     (let* ((context (session-context agent))
            (seq `(data::actionSequence
                   (data::TheList
                    (data::processUserUtterance ,context ,text)))))
-      (execute agent seq)))) ;; rely on doAnnounce to keep user informed.
+      (execute agent seq)))) 
 
 
 
