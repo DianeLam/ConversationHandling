@@ -183,11 +183,11 @@
 (fire:kb-store `(data::utteranceInDialogue ,id ,text) :mt id)
 )
 
-(defun finds-name (id text)
-	(if (search "name is" text) (and (setq nameindex (+ 8 (search "name is" text))) (fire:kb-store `(data::fullName ,id ,(subseq text nameindex)) :mt id))
-	(add-dialogue id text)))
+;; (defun finds-name (id text)
+;; 	(if (search "name is" text) (and (setq nameindex (+ 8 (search "name is" text))) (fire:kb-store `(data::fullName ,id ,(subseq text nameindex)) :mt id))
+;; 	(add-dialogue id text)))
 
-; (defun finds-likes)
+
 ;;; ToDo: interpret should add a task to the IM's plan grinder to do something with it.
 (defmethod handle-achieve-request ((agent interaction-manager) 
                                    (command (eql 'd::interpret))
@@ -208,7 +208,7 @@
   (unless (and (numberp utterance-number) (stringp text))
     (error "ccl command interpret has changed to include an utterance number.  Need to update session-manager."))
   (setf (turn agent) utterance-number)
-  (when user-id (and (kiosk-create-user user-id) (finds-name user-id text)))
+  (when user-id (kiosk-create-user user-id)) ;(finds-name user-id text)))
   (fire::with-eanlu-discourse (discourse agent)
     (let* ((context (session-context agent))
            (seq `(data::actionSequence
