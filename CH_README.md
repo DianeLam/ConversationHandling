@@ -12,5 +12,6 @@
 #### Then compile all the files under ../companions/v1/kiosk/  using Ctrl+U in the listener
 #### Run the command (ea:setup)
 #### Finally run (train-test-qa-w-all) 
+#### Once that finishes running, you can ask Companions questions in the Interaction tab (or the slackbot if fully setup)
 
-#### Add/replace files in the QRG directory.
+
