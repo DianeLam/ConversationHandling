@@ -267,6 +267,38 @@
       "What is a topic in hardware?"
       "What is a topic about hardware?" 
       ))
+    
+  ;;;;;;;;;;;;  This code was the beginning of a training case for handling a 
+  ;;;;;;;;;;;;  declarative utterance.  The obstacle was in resolving person123 - 
+  ;;;;;;;;;;;;  we were not sure how to capture the user ID passed in to the 
+  ;;;;;;;;;;;;  Interaction Manager along with the utterance; one idea was to 
+  ;;;;;;;;;;;;  concatenate the utterance and the user ID, and then adjust the
+  ;;;;;;;;;;;;  EA NLU to interpret the user ID as such.  We did not have time
+  ;;;;;;;;;;;;  to fully explore this, however.
+  ;;;  
+  ;;;  ((:comment . "A user declaring they are interested in a topic")
+  ;;;  (:lf 
+  ;;;  (and
+  ;;;     (ist-information mt123 (isa person123 NUPerson))
+  ;;;     (storeFact (interest person123 topic123) mt123)
+  ;;;     (psikiSayThis  "Thanks for sharing, I will keep that in mind."))
+  ;;;   (isa person123 NUPerson)
+  ;;;   (isa topic123 AcademicTopic)
+  ;;;   (isa mt123 Microtheory)
+  ;;;   )
+  ;;;  (:texts 
+  ;;;   "I am interested in algorithms."
+  ;;;   "I think cognitive systems are cool."
+  ;;;   "I like studying algorithms."
+  ;;;   "Graphics is an interesting field."
+  ;;;   "I enjoy learning about graphics."
+  ;;;   "I really like databases."
+  ;;;   "Algorithms are fun."
+  ;;;   "My favorite subject is AI."
+  ;;;   "I like working with reasoning."
+  ;;;   "HCI is cool."
+  ;;;   "I'm pretty into machine learning."
+  ;;;   ))
 
   
     
