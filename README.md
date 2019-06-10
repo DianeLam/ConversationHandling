@@ -1,10 +1,9 @@
 # ConversationHandling
 
 ### Conversation Handler group: 
-#### We have augmented Companions to support interactions over Slack.  Our contribution is threefold: 
+#### We have augmented Companions to support interactions over Slack.  Our contribution is twofold: 
 ##### 1) We extended the current Interaction Manager to distinguish between utterances from different individuals by extracting a user-ID from the KQML achieve interpret message (provided, of course, that the KQML achieve interpret message sent to the Interaction Manager includes a user-ID as the fourth parameter of the :content specification).  This allows the Interaction Manager to receive messages from Slack users via Pythonian (as per the agent code from the Slack Front-End team).
 ##### 2) We expanded Companions' analogical question answering capability by developing additional utterance cases (using predicates newly ontologized by the Teaching Kiosk team).
-##### 3) We adjusted the response plans to enable Companions to route its responses to utterances back to the Pythonian agent which had sent the original utterances (in this case, the Kio agent developed by the Slack Front-End team).
 
 ### Setup:
 #### Within the QRG repo replace the files im-agent.lsp (path: QRG_CI_2019\qrg\companions\v1\interaction-manager\v2) and train-questions.lsp (path QRG_CI_2019\qrg\companions\v1\kiosk\questions) with the files in this repo.
